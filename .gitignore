@@ -98,3 +98,4 @@ lint/tmp/
 # lint/reports/
 
 gas-report.txt
+.issue.md

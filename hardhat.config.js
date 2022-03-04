@@ -56,4 +56,7 @@ module.exports = {
             1: 0, // similarly on mainnet it will take the first account as deployer. Note though that depending on how hardhat network are configured, the account 0 on one network can be different than on another
         },
     },
+    mocha: {
+        timeout: 200000, // 200 seconds max for running tests
+    },
 }

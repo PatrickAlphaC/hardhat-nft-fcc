@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
+import "hardhat/console.sol";
 
 error AlreadyInitialized();
 error NeedMoreETHSent();
@@ -70,6 +71,7 @@ contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
             i_callbackGasLimit,
             NUM_WORDS
         );
+
         s_requestIdToSender[requestId] = msg.sender;
         emit NftRequested(requestId, msg.sender);
     }
@@ -77,9 +79,10 @@ contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
     function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal override {
         address dogOwner = s_requestIdToSender[requestId];
         uint256 newItemId = s_tokenCounter;
-        _safeMint(dogOwner, newItemId);
+        s_tokenCounter = s_tokenCounter + 1;
         uint256 moddedRng = randomWords[0] % MAX_CHANCE_VALUE;
         Breed dogBreed = getBreedFromModdedRng(moddedRng);
+        _safeMint(dogOwner, newItemId);
         _setTokenURI(newItemId, s_dogTokenUris[uint256(dogBreed)]);
         emit NftMinted(dogBreed, dogOwner);
     }
@@ -124,5 +127,9 @@ contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
 
     function getInitialized() public view returns (bool) {
         return s_initialized;
+    }
+
+    function getTokenCounter() public view returns (uint256) {
+        return s_tokenCounter;
     }
 }
