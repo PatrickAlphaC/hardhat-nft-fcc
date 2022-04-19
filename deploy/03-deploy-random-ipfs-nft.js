@@ -37,7 +37,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const chainId = network.config.chainId
     let vrfCoordinatorV2Address, subscriptionId
 
-    if (process.env.NFT_STORAGE_KEY && process.env.UPLOAD_TO_PINATA == "true") {
+    if (process.env.UPLOAD_TO_PINATA == "true") {
         tokenUris = await handleTokenUris()
     }
 
