@@ -1,9 +1,5 @@
 const { network } = require("hardhat")
-const {
-    networkConfig,
-    developmentChains,
-    VERIFICATION_BLOCK_CONFIRMATIONS,
-} = require("../helper-hardhat-config")
+const { networkConfig, developmentChains } = require("../helper-hardhat-config")
 const { verify } = require("../helper-functions")
 const { storeImages, storeTokeUriMetadata } = require("../utils/uploadToPinata")
 
@@ -55,9 +51,6 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         vrfCoordinatorV2Address = networkConfig[chainId].vrfCoordinatorV2
         subscriptionId = networkConfig[chainId].subscriptionId
     }
-    const waitBlockConfirmations = developmentChains.includes(network.name)
-        ? 1
-        : VERIFICATION_BLOCK_CONFIRMATIONS
 
     log("----------------------------------------------------")
     arguments = [
@@ -72,7 +65,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         from: deployer,
         args: arguments,
         log: true,
-        waitConfirmations: waitBlockConfirmations,
+        waitConfirmations: network.config.waitBlockConfirmations || 1,
     })
 
     // Verify the deployment
@@ -102,4 +95,4 @@ async function handleTokenUris() {
     return tokenUris
 }
 
-module.exports.tags = ["all", "randomipfs"]
+module.exports.tags = ["all", "randomipfs", "main"]

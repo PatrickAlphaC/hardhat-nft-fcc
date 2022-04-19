@@ -101,15 +101,22 @@ In your `helper-hardhat-config.ts` add your `subscriptionId` under the section o
 
 Then run:
 ```
-yarn hardhat deploy --network rinkeby
+yarn hardhat deploy --network rinkeby --tags main
 ```
 
-And copy / remember the contract address. 
+We only deploy the `main` tags, since we need to add our `RandomIpfsNft` contract as a consumer. 
 
 4. Add your contract address as a Chainlink VRF Consumer
 
 Go back to [vrf.chain.link](https://vrf.chain.link) and under your subscription add `Add consumer` and add your contract address. You should also fund the contract with a minimum of 1 LINK. 
 
+5. Mint NFTs
+
+Then run:
+
+```
+yarn hardhat deploy --network rinkeby --tags mint
+```
 
 
 ### Estimate gas cost in USD
