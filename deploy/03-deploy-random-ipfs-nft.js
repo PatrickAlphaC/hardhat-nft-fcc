@@ -1,6 +1,6 @@
 const { network } = require("hardhat")
 const { networkConfig, developmentChains } = require("../helper-hardhat-config")
-const { verify } = require("../helper-functions")
+const { verify } = require("../utils/verify")
 const { storeImages, storeTokeUriMetadata } = require("../utils/uploadToPinata")
 
 const FUND_AMOUNT = "1000000000000000000000"
