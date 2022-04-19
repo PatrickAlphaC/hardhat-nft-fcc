@@ -37,8 +37,6 @@ contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
 
     // VRF Helpers
     mapping(uint256 => address) public s_requestIdToSender;
-    mapping(uint256 => string) public s_requestIdToTokenURI;
-    mapping(uint256 => uint256) public s_requestIdToTokenId;
 
     // Events
     event NftRequested(uint256 indexed requestId, address requester);
@@ -88,7 +86,7 @@ contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
     }
 
     function getChanceArray() public pure returns (uint256[3] memory) {
-        return [10, 55, MAX_CHANCE_VALUE];
+        return [10, 30, MAX_CHANCE_VALUE];
     }
 
     function _initializeContract(string[3] memory dogTokenUris) private {
