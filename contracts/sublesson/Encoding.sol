@@ -52,19 +52,19 @@ contract Encoding {
         return someString;
     }
 
-    // This is just type casting to string
-    // It's slightly different from below, and they have different gas costs
-    function encodeStringBytes() public pure returns (bytes memory) {
-        bytes memory someString = bytes("some string");
-        return someString;
-    }
-
     // https://forum.openzeppelin.com/t/difference-between-abi-encodepacked-string-and-bytes-string/11837
     // encodePacked
     // This is great if you want to save space, not good for calling functions.
     // You can sort of think of it as a compressor for the massive bytes object above.
     function encodeStringPacked() public pure returns (bytes memory) {
         bytes memory someString = abi.encodePacked("some string");
+        return someString;
+    }
+
+    // This is just type casting to string
+    // It's slightly different from below, and they have different gas costs
+    function encodeStringBytes() public pure returns (bytes memory) {
+        bytes memory someString = bytes("some string");
         return someString;
     }
 

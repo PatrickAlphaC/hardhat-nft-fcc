@@ -16,7 +16,7 @@ const lowTokenUri =
 
 !developmentChains.includes(network.name)
     ? describe.skip
-    : describe("Dynamic SVG NFT Unit Tests", async function () {
+    : describe("Dynamic SVG NFT Unit Tests", function () {
           let dynamicSvgNft, deployer, mockV3Aggregator
 
           beforeEach(async () => {
