@@ -1,12 +1,14 @@
-const { network } = require("hardhat")
-const { networkConfig, developmentChains } = require("../helper-hardhat-config")
-const { verify } = require("../utils/verify")
-const fs = require("fs")
+import { developmentChains, VERIFICATION_BLOCK_CONFIRMATIONS, networkConfig } from "../helper-hardhat-config"
+import verify from "../utils/verify"
+import { DeployFunction } from "hardhat-deploy/types"
+import { HardhatRuntimeEnvironment } from "hardhat/types"
+import fs from "fs"
 
-module.exports = async ({ getNamedAccounts, deployments }) => {
+const deployDynamicSvgNft: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+    const { deployments, getNamedAccounts, network, ethers } = hre
     const { deploy, log } = deployments
     const { deployer } = await getNamedAccounts()
-    const chainId = network.config.chainId
+    const chainId = network.config.chainId!
     let ethUsdPriceFeedAddress
 
     if (chainId == 31337) {
@@ -16,24 +18,27 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     } else {
         ethUsdPriceFeedAddress = networkConfig[chainId].ethUsdPriceFeed
     }
-
+    const waitBlockConfirmations = developmentChains.includes(network.name)
+    ? 1
+    : VERIFICATION_BLOCK_CONFIRMATIONS
     const lowSVG = await fs.readFileSync("./images/dynamicNft/frown.svg", { encoding: "utf8" })
     const highSVG = await fs.readFileSync("./images/dynamicNft/happy.svg", { encoding: "utf8" })
 
     log("----------------------------------------------------")
-    arguments = [ethUsdPriceFeedAddress, lowSVG, highSVG]
+    const args = [ethUsdPriceFeedAddress, lowSVG, highSVG]
     const dynamicSvgNft = await deploy("DynamicSvgNft", {
         from: deployer,
-        args: arguments,
+        args: args,
         log: true,
-        waitConfirmations: network.config.blockConfirmations || 1,
+        waitConfirmations: waitBlockConfirmations || 1,
     })
 
     // Verify the deployment
     if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
         log("Verifying...")
-        await verify(dynamicSvgNft.address, arguments)
+        await verify(dynamicSvgNft.address, args)
     }
 }
 
-module.exports.tags = ["all", "dynamicsvg", "main"]
+export default deployDynamicSvgNft
+deployDynamicSvgNft.tags = ["all", "dynamicsvg", "main"]

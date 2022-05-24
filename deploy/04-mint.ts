@@ -1,6 +1,8 @@
-const { network, ethers } = require("hardhat")
+import { DeployFunction } from "hardhat-deploy/types"
+import { HardhatRuntimeEnvironment } from "hardhat/types"
 
-module.exports = async ({ getNamedAccounts, deployments }) => {
+const mint: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+    const {getNamedAccounts, network, ethers } = hre
     const { deployer } = await getNamedAccounts()
     const chainId = network.config.chainId
 
@@ -23,7 +25,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const randomIpfsNftMintTx = await randomIpfsNft.requestNft({ value: mintFee.toString() })
     const randomIpfsNftMintTxReceipt = await randomIpfsNftMintTx.wait(1)
     // Need to listen for response
-    await new Promise(async (resolve) => {
+    await new Promise<void>(async (resolve) => {
         setTimeout(resolve, 300000) // 5 minute timeout time
         // setup listener for our event
         randomIpfsNft.once("NftMinted", async () => {
@@ -37,4 +39,5 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     })
     console.log(`Random IPFS NFT index 0 tokenURI: ${await randomIpfsNft.tokenURI(0)}`)
 }
-module.exports.tags = ["all", "mint"]
+export default mint
+mint.tags = ["all", "mint"]

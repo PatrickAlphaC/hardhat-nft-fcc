@@ -1,16 +1,18 @@
 // We are going to skimp a bit on these tests...
 
-const { assert } = require("chai")
-const { network, deployments, ethers } = require("hardhat")
-const { developmentChains } = require("../../helper-hardhat-config")
+import { assert, expect } from "chai"
+import { network, deployments, ethers }from "hardhat"
+import { developmentChains, networkConfig} from "../../helper-hardhat-config"
+import {BasicNft} from "../../typechain-types"
 
 !developmentChains.includes(network.name)
     ? describe.skip
     : describe("Basic NFT Unit Tests", async function () {
-          let basicNft, deployer
+          let basicNft: BasicNft
+          let deployer
 
           beforeEach(async () => {
-              accounts = await ethers.getSigners()
+              const accounts = await ethers.getSigners()
               deployer = accounts[0]
               await deployments.fixture(["mocks", "basicnft"])
               basicNft = await ethers.getContract("BasicNft")

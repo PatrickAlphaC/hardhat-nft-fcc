@@ -1,14 +1,13 @@
-require("@nomiclabs/hardhat-waffle")
-require("hardhat-gas-reporter")
-require("@nomiclabs/hardhat-etherscan")
-require("dotenv").config()
-require("solidity-coverage")
-require("hardhat-deploy")
-// You need to export an object to set up your config
-// Go to https://hardhat.org/config/ to learn more
-/**
- * @type import('hardhat/config').HardhatUserConfig
- */
+import "@typechain/hardhat"
+import "@nomiclabs/hardhat-waffle"
+import "@nomiclabs/hardhat-etherscan"
+import "@nomiclabs/hardhat-ethers"
+import "hardhat-gas-reporter"
+import "dotenv/config"
+import "solidity-coverage"
+import "hardhat-deploy"
+import "solidity-coverage"
+import { HardhatUserConfig } from "hardhat/config"
 
 const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY || ""
 const RINKEBY_RPC_URL =
@@ -16,7 +15,7 @@ const RINKEBY_RPC_URL =
 const PRIVATE_KEY = process.env.PRIVATE_KEY || ""
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || ""
 
-module.exports = {
+const config: HardhatUserConfig = {
     defaultNetwork: "hardhat",
     networks: {
         hardhat: {
@@ -27,13 +26,12 @@ module.exports = {
             url: RINKEBY_RPC_URL,
             accounts: [PRIVATE_KEY],
             chainId: 4,
-            blockConfirmations: 6,
         },
     },
     solidity: {
         compilers: [
             {
-                version: "0.8.8",
+                version: "0.8.7",
             },
             {
                 version: "0.6.6",
@@ -60,3 +58,5 @@ module.exports = {
         timeout: 200000, // 200 seconds max for running tests
     },
 }
+
+export default config

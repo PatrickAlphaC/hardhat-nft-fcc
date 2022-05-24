@@ -1,9 +1,9 @@
 // Import the NFTStorage class and File constructor from the 'nft.storage' package
-const { NFTStorage, File } = require("nft.storage")
-const mime = require("mime")
-const fs = require("fs")
-const path = require("path")
-require("dotenv").config()
+import { NFTStorage, File } from "nft.storage"
+import mime from "mime"
+import fs from "fs"
+import path from "path"
+import "dotenv/config"
 
 const NFT_STORAGE_KEY = process.env.NFT_STORAGE_KEY
 
@@ -13,11 +13,11 @@ const NFT_STORAGE_KEY = process.env.NFT_STORAGE_KEY
  * @param {string} name a name for the NFT
  * @param {string} description a text description for the NFT
  */
-async function storeNFTs(imagesPath) {
+export async function storeNFTs(imagesPath) {
     const fullImagesPath = path.resolve(imagesPath)
     const files = fs.readdirSync(fullImagesPath)
     let responses = []
-    for (fileIndex in files) {
+    for (const fileIndex in files) {
         const image = await fileFromPath(`${fullImagesPath}/${files[fileIndex]}`)
         const nftstorage = new NFTStorage({ token: NFT_STORAGE_KEY })
         const dogName = files[fileIndex].replace(".png", "")
@@ -40,12 +40,9 @@ async function storeNFTs(imagesPath) {
  * @param {string} filePath the path to a file to store
  * @returns {File} a File object containing the file content
  */
-async function fileFromPath(filePath) {
+export async function fileFromPath(filePath) {
     const content = await fs.promises.readFile(filePath)
     const type = mime.getType(filePath)
     return new File([content], path.basename(filePath), { type })
 }
 
-module.exports = {
-    storeNFTs,
-}
