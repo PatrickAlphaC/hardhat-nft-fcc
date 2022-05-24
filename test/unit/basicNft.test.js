@@ -6,7 +6,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
 
 !developmentChains.includes(network.name)
     ? describe.skip
-    : describe("Basic NFT Unit Tests", async function () {
+    : describe("Basic NFT Unit Tests", function () {
           let basicNft, deployer
 
           beforeEach(async () => {
