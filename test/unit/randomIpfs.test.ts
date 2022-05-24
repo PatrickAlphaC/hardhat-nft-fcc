@@ -7,7 +7,7 @@ import {RandomIpfsNft, VRFCoordinatorV2Mock} from "../../typechain-types"
 
 !developmentChains.includes(network.name)
     ? describe.skip
-    : describe("Random IPFS NFT Unit Tests", async function () {
+    : describe("Random IPFS NFT Unit Tests", function () {
           let randomIpfsNft: RandomIpfsNft, deployer, vrfCoordinatorV2Mock: VRFCoordinatorV2Mock
 
           beforeEach(async () => {
@@ -18,7 +18,7 @@ import {RandomIpfsNft, VRFCoordinatorV2Mock} from "../../typechain-types"
               vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
           })
 
-          describe("constructor", () => {
+          describe("constructor", function () {
               it("sets starting values correctly", async function () {
                   const dogTokenUriZero = await randomIpfsNft.getDogTokenUris(0)
                   const isInitialized = await randomIpfsNft.getInitialized()
@@ -27,7 +27,7 @@ import {RandomIpfsNft, VRFCoordinatorV2Mock} from "../../typechain-types"
               })
           })
 
-          describe("requestNft", () => {
+          describe("requestNft", function () {
               it("fails if payment isn't sent with the request", async function () {
                   await expect(randomIpfsNft.requestNft()).to.be.revertedWith("NeedMoreETHSent")
               })
@@ -39,7 +39,7 @@ import {RandomIpfsNft, VRFCoordinatorV2Mock} from "../../typechain-types"
                   )
               })
           })
-          describe("fulfillRandomWords", () => {
+          describe("fulfillRandomWords", function () {
               it("mints NFT after random number returned", async function () {
                   await new Promise<void>(async (resolve, reject) => {
                       randomIpfsNft.once("NftMinted", async () => {
