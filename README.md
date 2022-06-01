@@ -1,5 +1,7 @@
 # The Ultimate NFT Repo
 
+*[⌨️ (20:28:51) Lesson 14: Hardhat NFTs ](https://www.youtube.com/watch?v=gyMwXuJrbJQ&t=73731s)*
+
 <br/>
 <p align="center">
 <img src="./images/randomNft/pug.png" width="225" alt="NFT Pug">
