@@ -43,7 +43,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                   await new Promise(async (resolve, reject) => {
                       randomIpfsNft.once("NftMinted", async () => {
                           try {
-                              const tokenUri = await randomIpfsNft.tokenURI(0)
+                              const tokenUri = await randomIpfsNft.getDogTokenUris("0")
                               const tokenCounter = await randomIpfsNft.getTokenCounter()
                               assert.equal(tokenUri.toString().includes("ipfs://"), true)
                               assert.equal(tokenCounter.toString(), "1")
