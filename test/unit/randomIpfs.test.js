@@ -30,7 +30,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
               it("fails if payment isn't sent with the request", async function () {
                   await expect(randomIpfsNft.requestNft()).to.be.revertedWith("NeedMoreETHSent")
               })
-              it("emits and event and kicks off a random word request", async function () {
+              it("emits an event and kicks off a random word request", async function () {
                   const fee = await randomIpfsNft.getMintFee()
                   await expect(randomIpfsNft.requestNft({ value: fee.toString() })).to.emit(
                       randomIpfsNft,
@@ -39,7 +39,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
               })
           })
           describe("fulfillRandomWords", () => {
-              it("mints NFT after random number returned", async function () {
+              it("mints NFT after random number is returned", async function () {
                   await new Promise(async (resolve, reject) => {
                       randomIpfsNft.once("NftMinted", async () => {
                           try {
