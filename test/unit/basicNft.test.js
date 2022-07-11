@@ -12,7 +12,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
           beforeEach(async () => {
               accounts = await ethers.getSigners()
               deployer = accounts[0]
-              await deployments.fixture(["mocks", "basicnft"])
+              await deployments.fixture(["basicnft"])
               basicNft = await ethers.getContract("BasicNft")
           })
 
