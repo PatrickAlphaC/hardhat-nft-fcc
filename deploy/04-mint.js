@@ -23,8 +23,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const randomIpfsNftMintTx = await randomIpfsNft.requestNft({ value: mintFee.toString() })
     const randomIpfsNftMintTxReceipt = await randomIpfsNftMintTx.wait(1)
     // Need to listen for response
-    await new Promise(async (resolve) => {
-        setTimeout(resolve, 300000) // 5 minute timeout time
+    await new Promise(async (resolve, reject) => {
+        setTimeout(() => reject("Timeout: 'NFTMinted' event did not fire"), 300000) // 5 minute timeout time
         // setup listener for our event
         randomIpfsNft.once("NftMinted", async () => {
             resolve()
