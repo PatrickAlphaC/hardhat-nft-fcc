@@ -123,9 +123,7 @@ contract CallFunctionWithoutContract {
     // pass in 0xa9059cbb000000000000000000000000d7acd2a9fd159e69bb102a1ca21c9a3e3a5f771b000000000000000000000000000000000000000000000000000000000000007b
     // you could use this to change state
     function callFunctionDirectly(bytes calldata callData) public returns (bytes4, bool) {
-        (bool success, bytes memory returnData) = s_selectorsAndSignaturesAddress.call(
-            abi.encodeWithSignature("getSelectorThree(bytes)", callData)
-        );
+        (bool success, bytes memory returnData) = s_selectorsAndSignaturesAddress.call(callData);
         return (bytes4(returnData), success);
     }
 
