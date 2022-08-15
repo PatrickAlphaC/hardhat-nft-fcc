@@ -6,7 +6,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
 
 !developmentChains.includes(network.name)
     ? describe.skip
-    : describe("Random IPFS NFT Unit Tests", async function () {
+    : describe("Random IPFS NFT Unit Tests", () => {
           let randomIpfsNft, deployer, vrfCoordinatorV2Mock
 
           beforeEach(async () => {
