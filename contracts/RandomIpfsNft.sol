@@ -29,7 +29,7 @@ contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
 
     // NFT Variables
     uint256 private immutable i_mintFee;
-    uint256 public s_tokenCounter;
+    uint256 private s_tokenCounter;
     mapping(uint256 => Breed) private s_tokenIdToBreed;
     uint256 internal constant MAX_CHANCE_VALUE = 100;
     string[] internal s_dogTokenUris;
