@@ -15,7 +15,19 @@ const { developmentChains } = require("../../helper-hardhat-config")
               await deployments.fixture(["basicnft"])
               basicNft = await ethers.getContract("BasicNft")
           })
+        
+        describe("Construtor", () => {
+            it("Initilizes the NFT Correctly.", async () => {
+                const name = await basicNft.name()
+                const symbol = await basicNft.symbol()
+                const tokenCounter=await basicNft.getTokenCounter()
+                assert.equal(name, "Dogie")
+                assert.equal(symbol, "DOG")
+                assert.equal(tokenCounter.toString(),"0")
+            })
+        })
 
+        describe("Mint NFT", () => {
           it("Allows users to mint an NFT, and updates appropriately", async function () {
               const txResponse = await basicNft.mintNft()
               await txResponse.wait(1)
@@ -24,5 +36,8 @@ const { developmentChains } = require("../../helper-hardhat-config")
 
               assert.equal(tokenCounter.toString(), "1")
               assert.equal(tokenURI, await basicNft.TOKEN_URI())
-          })
+             })
+         })
+        
+        
       })
