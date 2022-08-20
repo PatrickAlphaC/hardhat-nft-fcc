@@ -38,6 +38,14 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                   )
               })
           })
+        describe("Withdraw", () => {
+            it("Gets reverted if the caller is not the owner", async function() => {
+                const newAccount = (await ethers.getSigners())[5]
+                const accountConnectedContract = await randomIpfsNft.connect(newAccount)
+                await expect(accountConnectedContract.withdraw()).to.be.reverted
+            })
+        })
+        
           describe("fulfillRandomWords", () => {
               it("mints NFT after random number is returned", async function () {
                   await new Promise(async (resolve, reject) => {
