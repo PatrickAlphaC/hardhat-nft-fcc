@@ -21,8 +21,8 @@ const deployDynamicSvgNft: DeployFunction = async function (hre: HardhatRuntimeE
     const waitBlockConfirmations = developmentChains.includes(network.name)
     ? 1
     : VERIFICATION_BLOCK_CONFIRMATIONS
-    const lowSVG = await fs.readFileSync("./images/dynamicNft/frown.svg", { encoding: "utf8" })
-    const highSVG = await fs.readFileSync("./images/dynamicNft/happy.svg", { encoding: "utf8" })
+    const lowSVG = fs.readFileSync("./images/dynamicNft/frown.svg", { encoding: "utf8" })
+    const highSVG = fs.readFileSync("./images/dynamicNft/happy.svg", { encoding: "utf8" })
 
     log("----------------------------------------------------")
     const args = [ethUsdPriceFeedAddress, lowSVG, highSVG]
