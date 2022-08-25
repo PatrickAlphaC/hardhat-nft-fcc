@@ -2,6 +2,9 @@
 
 *[⌨️ (20:28:51) Lesson 14: Hardhat NFTs ](https://www.youtube.com/watch?v=gyMwXuJrbJQ&t=73731s)*
 
+[Full Repo](https://github.com/smartcontractkit/full-blockchain-solidity-course-js)
+
+
 <br/>
 <p align="center">
 <img src="./images/randomNft/pug.png" width="225" alt="NFT Pug">
