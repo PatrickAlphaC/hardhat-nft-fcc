@@ -47,19 +47,30 @@ const lowTokenUri =
                   )
                   const tokenCounter = await dynamicSvgNft.getTokenCounter()
                   assert.equal(tokenCounter.toString(), "1")
-                  const tokenURI = await dynamicSvgNft.tokenURI(0)
-                  assert.equal(tokenURI, highTokenUri)
-              })
-              it("shifts the token uri to lower when the price doesn't surpass the highvalue", async function () {
-                  const highValue = ethers.utils.parseEther("100000000") // $100,000,000 dollar per ether. Maybe in the distant future this test will fail...
-                  const txResponse = await dynamicSvgNft.mintNft(highValue)
-                  await txResponse.wait(1)
-                  const tokenURI = await dynamicSvgNft.tokenURI(0)
-                  assert.equal(tokenURI, lowTokenUri)
               })
           })
 
-          // probably want more tests checking the svg -> token URI conversion svgToImageURI
-          // More coverage of course
-          // Maybe some tokenURI oddities
+          describe("tokenURI", () => {
+              it("shifts the token uri to lower when the price currently doesn't surpass the highvalue", async function () {
+                  const highValue = ethers.utils.parseEther("100000000") // $100,000,000 dollar per ETH. Maybe in the distant future this test will fail...
+                  const txResponse = await dynamicSvgNft.mintNft(highValue)
+                  await txResponse.wait(1)
+                  const tokenURI = await dynamicSvgNft.tokenURI(0)
+                  assert.equal(tokenURI.toString(), lowTokenUri)
+              })
+
+              it("shifts the token uri to higher when the price currently is surpassed the highvalue", async function () {
+                  const highValue = ethers.utils.parseEther("100") // $100 dollar per ETH. If ETH price comes below $100 in future this test will fail...
+                  const txResponse = await dynamicSvgNft.mintNft(highValue)
+                  await txResponse.wait(1)
+                  const tokenURI = await dynamicSvgNft.tokenURI(0)
+                  assert.equal(tokenURI.toString(), highTokenUri)
+              })
+
+              it("reverts if token Id is non existent", async function () {
+                  await expect(dynamicSvgNft.tokenURI(0)).to.be.revertedWith(
+                      "ERC721Metadata__URI_QueryFor_NonExistentToken"
+                  )
+              })
+          })
       })
