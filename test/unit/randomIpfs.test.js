@@ -7,7 +7,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
 !developmentChains.includes(network.name)
     ? describe.skip
     : describe("Random IPFS NFT Unit Tests", function () {
-          let randomIpfsNft, deployer, vrfCoordinatorV2Mock
+          let randomIpfsNft, deployer, vrfCoordinatorV2Mock, fee
 
           beforeEach(async () => {
               accounts = await ethers.getSigners()
@@ -15,6 +15,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
               await deployments.fixture(["mocks", "randomipfs"])
               randomIpfsNft = await ethers.getContract("RandomIpfsNft")
               vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
+              fee = await randomIpfsNft.getMintFee()
           })
 
           describe("constructor", () => {
@@ -31,8 +32,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                   await expect(randomIpfsNft.requestNft()).to.be.revertedWith("NeedMoreETHSent")
               })
               it("emits an event and kicks off a random word request", async function () {
-                  const fee = await randomIpfsNft.getMintFee()
-                  await expect(randomIpfsNft.requestNft({ value: fee.toString() })).to.emit(
+                  await expect(randomIpfsNft.requestNft({ value: fee })).to.emit(
                       randomIpfsNft,
                       "NftRequested"
                   )
@@ -68,6 +68,31 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                           reject(e)
                       }
                   })
+              })
+          })
+
+          describe("withdraw", () => {
+              it("allows to withdraw money", async () => {
+                  await randomIpfsNft.requestNft({ value: fee })
+                  await randomIpfsNft.withdraw()
+                  const balanceAfter = await randomIpfsNft.getBalance()
+
+                  assert.equal(balanceAfter.toString(), "0")
+              })
+          })
+
+          describe("getBreedFromModdedRng", () => {
+              it("returns correct breed", async () => {
+                  const breed = await randomIpfsNft.getBreedFromModdedRng(
+                      ethers.BigNumber.from("7")
+                  )
+                  assert.equal(breed, 0)
+              })
+
+              it("reverts when failed", async () => {
+                  await expect(
+                      randomIpfsNft.getBreedFromModdedRng(ethers.BigNumber.from("1077777777777"))
+                  ).to.be.revertedWith("RangeOutOfBounds")
               })
           })
       })
