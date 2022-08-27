@@ -1,7 +1,7 @@
 const { network } = require("hardhat")
 const { networkConfig, developmentChains } = require("../helper-hardhat-config")
 const { verify } = require("../utils/verify")
-const { storeImages, storeTokeUriMetadata } = require("../utils/uploadToPinata")
+const { storeImages, storeTokenUriMetadata } = require("../utils/uploadToPinata")
 
 const FUND_AMOUNT = "1000000000000000000000"
 const imagesLocation = "./images/randomNft/"
@@ -88,7 +88,7 @@ async function handleTokenUris() {
         tokenUriMetadata.description = `An adorable ${tokenUriMetadata.name} pup!`
         tokenUriMetadata.image = `ipfs://${imageUploadResponses[imageUploadResponseIndex].IpfsHash}`
         console.log(`Uploading ${tokenUriMetadata.name}...`)
-        const metadataUploadResponse = await storeTokeUriMetadata(tokenUriMetadata)
+        const metadataUploadResponse = await storeTokenUriMetadata(tokenUriMetadata)
         tokenUris.push(`ipfs://${metadataUploadResponse.IpfsHash}`)
     }
     console.log("Token URIs uploaded! They are:")
