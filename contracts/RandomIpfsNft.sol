@@ -10,6 +10,7 @@ import "hardhat/console.sol";
 error AlreadyInitialized();
 error NeedMoreETHSent();
 error RangeOutOfBounds();
+error RandomIpfsNft__TransferFailed();
 
 contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
     // Types
@@ -113,7 +114,9 @@ contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
     function withdraw() public onlyOwner {
         uint256 amount = address(this).balance;
         (bool success, ) = payable(msg.sender).call{value: amount}("");
-        require(success, "Transfer failed");
+        if (!success) {
+            revert RandomIpfsNft__TransferFailed();
+        }
     }
 
     function getMintFee() public view returns (uint256) {
