@@ -10,7 +10,7 @@ contract Encoding {
 
     // When we send a transaction, it is "compiled" down to bytecode and sent in a "data" object of the transaction.
     // That data object now governs how future transactions will interact with it.
-    // For example: https://rinkeby.etherscan.io/tx/0x924f592458b0e37ee17024f9c826b97697455cd97f6946b802bc42296e77ae43
+    // For example: https://etherscan.io/tx/0x112133a0a74af775234c077c397c8b75850ceb61840b33b23ae06b753da40490
 
     // Now, in order to read and understand these bytes, you need a special reader.
     // This is supposed to be a new contract? How can you tell?
