@@ -36,7 +36,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                   const fee = await randomIpfsNft.getMintFee()
                   await expect(
                       randomIpfsNft.requestNft({
-                          value: mintFee.sub(ethers.utils.parseEther("0.001")),
+                          value: fee.sub(ethers.utils.parseEther("0.001")),
                       })
                   ).to.be.revertedWith("RandomIpfsNft__NeedMoreETHSent")
               })
