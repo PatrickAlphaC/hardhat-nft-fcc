@@ -8,7 +8,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "hardhat/console.sol";
 
 error AlreadyInitialized();
-error NeedMoreETHSent();
+error RandomIpfsNft__NeedMoreETHSent();
 error RangeOutOfBounds();
 error RandomIpfsNft__TransferFailed();
 
@@ -60,7 +60,7 @@ contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
 
     function requestNft() public payable returns (uint256 requestId) {
         if (msg.value < i_mintFee) {
-            revert NeedMoreETHSent();
+            revert RandomIpfsNft__NeedMoreETHSent();
         }
         requestId = i_vrfCoordinator.requestRandomWords(
             i_gasLane,
@@ -101,9 +101,9 @@ contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
         uint256 cumulativeSum = 0;
         uint256[3] memory chanceArray = getChanceArray();
         for (uint256 i = 0; i < chanceArray.length; i++) {
-                // Pug = 0 - 9  (10%)
-                // Shiba-inu = 10 - 39  (30%)
-                // St. Bernard = 40 = 99 (60%)
+            // Pug = 0 - 9  (10%)
+            // Shiba-inu = 10 - 39  (30%)
+            // St. Bernard = 40 = 99 (60%)
             if (moddedRng >= cumulativeSum && moddedRng < chanceArray[i]) {
                 return Breed(i);
             }
