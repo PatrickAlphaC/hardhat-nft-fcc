@@ -28,12 +28,14 @@ module.exports = {
             accounts: [PRIVATE_KEY],
             chainId: 5,
             blockConfirmations: 6,
+            gas: 6000000,
         },
         mainnet: {
             url: process.env.MAINNET_RPC_URL,
             accounts: [PRIVATE_KEY],
             chainId: 1,
             blockConfirmations: 6,
+            gas: 6000000,
         },
     },
     solidity: {
