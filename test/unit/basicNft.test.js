@@ -1,8 +1,10 @@
-// We are going to skimp a bit on these tests...
+// We are going to skip a bit on these tests...
 
 const { assert } = require("chai")
 const { network, deployments, ethers } = require("hardhat")
 const { developmentChains } = require("../../helper-hardhat-config")
+
+//writing the test code from here..
 
 !developmentChains.includes(network.name)
     ? describe.skip
@@ -16,6 +18,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
               basicNft = await ethers.getContract("BasicNft")
           })
         
+        //test01
         describe("Construtor", () => {
             it("Initilizes the NFT Correctly.", async () => {
                 const name = await basicNft.name()
@@ -26,7 +29,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
                 assert.equal(tokenCounter.toString(),"0")
             })
         })
-
+//test02
         describe("Mint NFT", () => {
           it("Allows users to mint an NFT, and updates appropriately", async function () {
               const txResponse = await basicNft.mintNft()
