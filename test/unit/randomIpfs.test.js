@@ -28,13 +28,18 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
 
           describe("requestNft", () => {
               it("fails if payment isn't sent with the request", async function () {
-                  await expect(randomIpfsNft.requestNft()).to.be.revertedWith("RandomIpfsNft__NeedMoreETHSent")
+                  await expect(randomIpfsNft.requestNft()).to.be.revertedWith(
+                      "RandomIpfsNft__NeedMoreETHSent"
+                  )
               })
               it("reverts if payment amount is less than the mint fee", async function () {
-					const fee = await randomIpfsNft.getMintFee();
-					await expect(randomIpfsNft.requestNft({ value: mintFee.sub(ethers.utils.parseEther("0.001")) })
-					).to.be.revertedWith("RandomIpfsNft__NeedMoreETHSent");
-				});
+                  const fee = await randomIpfsNft.getMintFee()
+                  await expect(
+                      randomIpfsNft.requestNft({
+                          value: fee.sub(ethers.utils.parseEther("0.001")),
+                      })
+                  ).to.be.revertedWith("RandomIpfsNft__NeedMoreETHSent")
+              })
               it("emits an event and kicks off a random word request", async function () {
                   const fee = await randomIpfsNft.getMintFee()
                   await expect(randomIpfsNft.requestNft({ value: fee.toString() })).to.emit(
@@ -75,22 +80,23 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                   })
               })
           })
-        describe("getBreedFromModdedRng", () => {
-            it("should return pug if moddedRng < 10", async function () {
-                const expectedValue = await randomIpfsNft.getBreedFromModdedRng(7)
-                assert.equal(0, expectedValue)
-            })
-            it("should return shiba-inu if moddedRng is between 10 - 39", async function () {
-                const expectedValue = await randomIpfsNft.getBreedFromModdedRng(21)
-                assert.equal(1, expectedValue)
-            })
-            it("should return st. bernard if moddedRng is between 40 - 99", async function () {
-                const expectedValue = await randomIpfsNft.getBreedFromModdedRng(77)
-                assert.equal(2, expectedValue)
-            })
-            it("should revert if moddedRng > 99", async function () {
-                await expect(randomIpfsNft.getBreedFromModdedRng(100)).to.be.revertedWith("RangeOutOfBounds")
-            })
-            
+          describe("getBreedFromModdedRng", () => {
+              it("should return pug if moddedRng < 10", async function () {
+                  const expectedValue = await randomIpfsNft.getBreedFromModdedRng(7)
+                  assert.equal(0, expectedValue)
+              })
+              it("should return shiba-inu if moddedRng is between 10 - 39", async function () {
+                  const expectedValue = await randomIpfsNft.getBreedFromModdedRng(21)
+                  assert.equal(1, expectedValue)
+              })
+              it("should return st. bernard if moddedRng is between 40 - 99", async function () {
+                  const expectedValue = await randomIpfsNft.getBreedFromModdedRng(77)
+                  assert.equal(2, expectedValue)
+              })
+              it("should revert if moddedRng > 99", async function () {
+                  await expect(randomIpfsNft.getBreedFromModdedRng(100)).to.be.revertedWith(
+                      "RandomIpfsNft__RangeOutOfBounds"
+                  )
+              })
           })
       })
