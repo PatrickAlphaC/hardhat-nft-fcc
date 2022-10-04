@@ -7,9 +7,9 @@ import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "hardhat/console.sol";
 
-error AlreadyInitialized();
-error NeedMoreETHSent();
-error RangeOutOfBounds();
+error RandomIpfsNft__AlreadyInitialized();
+error RandomIpfsNft__NeedMoreETHSent();
+error RandomIpfsNft__RangeOutOfBounds();
 error RandomIpfsNft__TransferFailed();
 
 contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
@@ -60,7 +60,7 @@ contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
 
     function requestNft() public payable returns (uint256 requestId) {
         if (msg.value < i_mintFee) {
-            revert NeedMoreETHSent();
+            revert RandomIpfsNft__NeedMoreETHSent();
         }
         requestId = i_vrfCoordinator.requestRandomWords(
             i_gasLane,
@@ -91,7 +91,7 @@ contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
 
     function _initializeContract(string[3] memory dogTokenUris) private {
         if (s_initialized) {
-            revert AlreadyInitialized();
+            revert RandomIpfsNft__AlreadyInitialized();
         }
         s_dogTokenUris = dogTokenUris;
         s_initialized = true;
@@ -109,7 +109,7 @@ contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
             }
             cumulativeSum = chanceArray[i];
         }
-        revert RangeOutOfBounds();
+        revert RandomIpfsNft__RangeOutOfBounds();
     }
 
     function withdraw() public onlyOwner {
