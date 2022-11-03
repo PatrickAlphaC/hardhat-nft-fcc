@@ -56,6 +56,7 @@ contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
         i_mintFee = mintFee;
         i_callbackGasLimit = callbackGasLimit;
         _initializeContract(dogTokenUris);
+        s_tokenCounter = 0;
     }
 
     function requestNft() public payable returns (uint256 requestId) {
@@ -101,9 +102,9 @@ contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
         uint256 cumulativeSum = 0;
         uint256[3] memory chanceArray = getChanceArray();
         for (uint256 i = 0; i < chanceArray.length; i++) {
-                // Pug = 0 - 9  (10%)
-                // Shiba-inu = 10 - 39  (30%)
-                // St. Bernard = 40 = 99 (60%)
+            // Pug = 0 - 9  (10%)
+            // Shiba-inu = 10 - 39  (30%)
+            // St. Bernard = 40 = 99 (60%)
             if (moddedRng >= cumulativeSum && moddedRng < chanceArray[i]) {
                 return Breed(i);
             }
