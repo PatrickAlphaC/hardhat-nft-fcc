@@ -104,7 +104,7 @@ contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
         for (uint256 i = 0; i < chanceArray.length; i++) {
                 // Pug = 0 - 9  (10%)
             // Shiba-inu = 10 - 39  (30%)
-            // St. Bernard = 40 = 99 (60%)
+                // St. Bernard = 40 = 99 (60%)
             if (moddedRng >= cumulativeSum && moddedRng < chanceArray[i]) {
                 return Breed(i);
             }
