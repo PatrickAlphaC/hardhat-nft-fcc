@@ -4,17 +4,39 @@ const path = require("path")
 
 const pinataApiKey = process.env.PINATA_API_KEY || ""
 const pinataApiSecret = process.env.PINATA_API_SECRET || ""
-const pinata = pinataSDK(pinataApiKey, pinataApiSecret)
+const pinata = new pinataSDK(pinataApiKey, pinataApiSecret)
 
 async function storeImages(imagesFilePath) {
     const fullImagesPath = path.resolve(imagesFilePath)
-    const files = fs.readdirSync(fullImagesPath)
+
+    // Filter the files in case the are a file that in not a .png
+    const files = fs
+        .readdirSync(fullImagesPath)
+        .filter((file) => file.includes(".png"))
+
     let responses = []
-    for (fileIndex in files) {
-        const readableStreamForFile = fs.createReadStream(`${fullImagesPath}/${files[fileIndex]}`)
+    console.log("Uploading to IPFS")
+
+    for (const fileIndex in files) {
+        const readableStreamForFile = fs.createReadStream(
+            `${fullImagesPath}/${files[fileIndex]}`
+        )
+        const indexForNaming = readableStreamForFile.path.lastIndexOf("/")
+
+        const options = {
+            pinataMetadata: {
+                name: readableStreamForFile.path.slice(indexForNaming + 1),
+            },
+        }
         try {
-            const response = await pinata.pinFileToIPFS(readableStreamForFile)
-            responses.push(response)
+            await pinata
+                .pinFileToIPFS(readableStreamForFile, options)
+                .then((result) => {
+                    responses.push(result)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
         } catch (error) {
             console.log(error)
         }
@@ -23,13 +45,19 @@ async function storeImages(imagesFilePath) {
 }
 
 async function storeTokenUriMetadata(metadata) {
+    const options = {
+        pinataMetadata: {
+            name: metadata.name,
+        },
+    }
     try {
-        const response = await pinata.pinJSONToIPFS(metadata)
+        const response = await pinata.pinJSONToIPFS(metadata, options)
         return response
     } catch (error) {
         console.log(error)
     }
     return null
 }
+
 
 module.exports = { storeImages, storeTokenUriMetadata }
