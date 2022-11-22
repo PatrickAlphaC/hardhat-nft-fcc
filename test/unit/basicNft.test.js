@@ -18,8 +18,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
               basicNft = await ethers.getContract("BasicNft")
           })
         
-        //test01
-        describe("Construtor", () => {
+        describe("Constructor", () => {
             it("Initializes the NFT Correctly.", async () => {
                 const name = await basicNft.name()
                 const symbol = await basicNft.symbol()
