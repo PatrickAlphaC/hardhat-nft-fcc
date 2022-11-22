@@ -10,22 +10,16 @@ async function storeImages(imagesFilePath) {
     const fullImagesPath = path.resolve(imagesFilePath)
 
     // Filter the files in case the are a file that in not a .png
-    const files = fs
-        .readdirSync(fullImagesPath)
-        .filter((file) => file.includes(".png"))
+    const files = fs.readdirSync(fullImagesPath).filter((file) => file.includes(".png"))
 
     let responses = []
     console.log("Uploading to IPFS")
 
     for (const fileIndex in files) {
-        const readableStreamForFile = fs.createReadStream(
-            `${fullImagesPath}/${files[fileIndex]}`
-        )
-        const indexForNaming = readableStreamForFile.path.lastIndexOf("/")
-
+        const readableStreamForFile = fs.createReadStream(`${fullImagesPath}/${files[fileIndex]}`)
         const options = {
             pinataMetadata: {
-                name: readableStreamForFile.path.slice(indexForNaming + 1),
+                name: files[fileIndex],
             },
         }
         try {
@@ -58,6 +52,5 @@ async function storeTokenUriMetadata(metadata) {
     }
     return null
 }
-
 
 module.exports = { storeImages, storeTokenUriMetadata }
