@@ -1,5 +1,5 @@
 {
-  "name": "hardhat-project",
+  "name": "hardhat-nft-fcc",
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers",
     "@nomiclabs/hardhat-etherscan": "^3.0.3",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@aave/protocol-v2": "^1.0.1",
-    "@chainlink/contracts": "^0.4.0",
+    "@chainlink/contracts": "^0.5.1",
     "@ethersproject/bignumber": "^5.5.0",
     "@openzeppelin/contracts": "^4.5.0",
     "@pinata/sdk": "^1.1.23",

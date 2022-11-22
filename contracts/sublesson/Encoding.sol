@@ -93,7 +93,7 @@ contract Encoding {
     }
 
     // This doesn't work!
-    function multiDencodePacked() public pure returns (string memory) {
+    function multiDecodePacked() public pure returns (string memory) {
         string memory someString = abi.decode(multiEncodePacked(), (string));
         return someString;
     }
