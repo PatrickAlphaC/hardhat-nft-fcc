@@ -18,7 +18,7 @@
     "@chainlink/contracts": "^0.5.1",
     "@ethersproject/bignumber": "^5.5.0",
     "@openzeppelin/contracts": "^4.5.0",
-    "@pinata/sdk": "^1.1.23",
+    "@pinata/sdk": "^2.1.0",
     "base64-sol": "^1.1.0",
     "dotenv": "^16.0.0",
     "fs": "^0.0.1-security",
