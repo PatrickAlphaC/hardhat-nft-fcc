@@ -17,8 +17,7 @@ contract BasicNft is ERC721 {
         _safeMint(msg.sender, s_tokenCounter);
     }
 
-    function tokenURI(uint256 tokenId) public view override returns (string memory) {
-        // require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
+    function tokenURI() public pure returns (string memory) {
         return TOKEN_URI;
     }
 
