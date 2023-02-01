@@ -27,6 +27,7 @@ module.exports = async ({ getNamedAccounts }) => {
         setTimeout(() => reject("Timeout: 'NFTMinted' event did not fire"), 300000) // 5 minute timeout time
         // setup listener for our event
         randomIpfsNft.once("NftMinted", async () => {
+            console.log(`Random IPFS NFT index 0 tokenURI: ${await randomIpfsNft.tokenURI(0)}`)
             resolve()
         })
         if (chainId == 31337) {
@@ -35,6 +36,5 @@ module.exports = async ({ getNamedAccounts }) => {
             await vrfCoordinatorV2Mock.fulfillRandomWords(requestId, randomIpfsNft.address)
         }
     })
-    console.log(`Random IPFS NFT index 0 tokenURI: ${await randomIpfsNft.tokenURI(0)}`)
 }
 module.exports.tags = ["all", "mint"]
