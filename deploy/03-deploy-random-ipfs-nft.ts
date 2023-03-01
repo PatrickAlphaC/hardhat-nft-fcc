@@ -2,7 +2,7 @@ import { developmentChains, VERIFICATION_BLOCK_CONFIRMATIONS, networkConfig } fr
 import verify from "../utils/verify"
 import { DeployFunction } from "hardhat-deploy/types"
 import { HardhatRuntimeEnvironment } from "hardhat/types"
-import { storeImages, storeTokeUriMetadata } from "../utils/uploadToPinata"
+import { storeImages, storeTokenUriMetadata } from "../utils/uploadToPinata"
 
 const FUND_AMOUNT = "1000000000000000000000"
 const imagesLocation = "./images/randomNft/"
@@ -89,7 +89,7 @@ async function handleTokenUris() {
         tokenUriMetadata.description = `An adorable ${tokenUriMetadata.name} pup!`
         tokenUriMetadata.image = `ipfs://${imageUploadResponses[imageUploadResponseIndex].IpfsHash}`
         console.log(`Uploading ${tokenUriMetadata.name}...`)
-        const metadataUploadResponse = await storeTokeUriMetadata(tokenUriMetadata)
+        const metadataUploadResponse = await storeTokenUriMetadata(tokenUriMetadata)
         tokenUris.push(`ipfs://${metadataUploadResponse!.IpfsHash}`)
     }
     console.log("Token URIs uploaded! They are:")
