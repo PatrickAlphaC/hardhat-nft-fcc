@@ -14,15 +14,15 @@ contract Encoding {
 
     // Now, in order to read and understand these bytes, you need a special reader.
     // This is supposed to be a new contract? How can you tell?
-    // Let's compile this contract in hardhat or remix, and you'll see the the "bytecode" output - that's that will be sent when
+    // Let's compile this contract in hardhat or remix, and you'll see the "bytecode" output - that's what will be sent when
     // creating a contract.
 
     // This bytecode represents exactly the low level computer instructions to make our contract happen.
-    // These low level instructions are spread out into soemthing call opcodes.
+    // These low level instructions are spread out into something called opcodes.
 
     // An opcode is going to be 2 characters that represents some special instruction, and also optionally has an input
 
-    // You can see a list of there here:
+    // You can see a list of them here:
     // https://www.evm.codes/
     // Or here:
     // https://github.com/crytic/evm-opcodes
@@ -62,7 +62,7 @@ contract Encoding {
     }
 
     // This is just type casting to string
-    // It's slightly different from below, and they have different gas costs
+    // It's slightly different from above, and they have different gas costs
     function encodeStringBytes() public pure returns (bytes memory) {
         bytes memory someString = bytes("some string");
         return someString;
@@ -108,12 +108,12 @@ contract Encoding {
     // As of 0.8.13, you can now do `string.concat(string1, string2)`
 
     // This abi.encoding stuff seems a little hard just to do string concatenation... is this for anything else?
-    // Why yes, yes it is.
+    // Well, yes, yes it is.
     // Since we know that our solidity is just going to get compiled down to this binary stuff to send a transaction...
 
     // We could just use this superpower to send transactions to do EXACTLY what we want them to do...
 
-    // Remeber how before I said you always need two things to call a contract:
+    // Remember how before I said you always need two things to call a contract:
     // 1. ABI
     // 2. Contract Address?
     // Well... That was true, but you don't need that massive ABI file. All we need to know is how to create the binary to call
@@ -137,7 +137,7 @@ contract Encoding {
     // - In our {} we were able to pass specific fields of a transaction, like value.
     // - In our () we were able to pass data in order to call a specific function - but there was no function we wanted to call!
     // We only sent ETH, so we didn't need to call a function!
-    // If we want to call a function, or send any data, we'd do it in these parathesis!
+    // If we want to call a function or send any data, we'd do it in these parentheses!
 
     // Let's look at another contract to explain this more...
 }
