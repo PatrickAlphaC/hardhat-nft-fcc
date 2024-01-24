@@ -59,7 +59,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
                               assert.equal(tokenUri.toString().includes("ipfs://"), true)
                               assert.equal(dogUri.toString(), tokenUri.toString())
                               assert.equal(+tokenCounter.toString(), +tokenId.toString() + 1)
-                              assert.equal(minter, deployer)
+                              assert.equal(minter, deployer.address)
                               resolve()
                           } catch (e) {
                               console.log(e)
