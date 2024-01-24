@@ -10,10 +10,10 @@ const pinata = new pinataSDK(pinataApiKey, pinataApiSecret)
 async function storeImages(imagesFilePath) {
     const fullImagesPath = path.resolve(imagesFilePath)
 
-    // Filter the files in case the are a file that in not a .png
-    const files = fs.readdirSync(fullImagesPath).filter((file) => file.includes(".png"))
+    // Filter the files in case there's a file that in not a .png, .jpg or .jpeg
+    const files = fs.readdirSync(fullImagesPath).filter((file) => (/\b.png|\b.jpg|\b.jpeg/).test(file))
 
-    let responses = []
+    const responses = []
     console.log("Uploading to IPFS")
 
     for (const fileIndex in files) {

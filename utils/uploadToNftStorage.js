@@ -16,11 +16,12 @@ const NFT_STORAGE_KEY = process.env.NFT_STORAGE_KEY
 async function storeNFTs(imagesPath) {
     const fullImagesPath = path.resolve(imagesPath)
     const files = fs.readdirSync(fullImagesPath)
-    let responses = []
-    for (fileIndex in files) {
+    const responses = []
+    for (const fileIndex in files) {
         const image = await fileFromPath(`${fullImagesPath}/${files[fileIndex]}`)
         const nftstorage = new NFTStorage({ token: NFT_STORAGE_KEY })
-        const dogName = files[fileIndex].replace(".png", "")
+        // const dogName = files[fileIndex].replace(".png", "")
+        const dogName = files[fileIndex].split(".")[0]
         const response = await nftstorage.store({
             image,
             name: dogName,

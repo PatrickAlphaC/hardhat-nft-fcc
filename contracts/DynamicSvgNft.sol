@@ -4,7 +4,11 @@ pragma solidity ^0.8.8;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
-import "base64-sol/base64.sol";
+// The new-version of "@openzeppelin/contracts": "^5.0.1", already has Base64.sol
+// You can import it like as shown just below...
+// import "@openzeppelin/contracts/utils/Base64.sol";   // 👈 comment in this import
+// instead of installing "base64-sol": "^1.1.0",
+import "base64-sol/base64.sol"; // 👈 comment out this import
 import "hardhat/console.sol";
 
 error ERC721Metadata__URI_QueryFor_NonExistentToken();
@@ -50,13 +54,14 @@ contract DynamicSvgNft is ERC721, Ownable {
     // }
 
     function mintNft(int256 highValue) public {
-        s_tokenIdToHighValues[s_tokenCounter] = highValue;
-        _safeMint(msg.sender, s_tokenCounter);
+        uint256 newTokenId = s_tokenCounter;
+        s_tokenIdToHighValues[newTokenId] = highValue;
+        _safeMint(msg.sender, newTokenId);
         s_tokenCounter = s_tokenCounter + 1;
-        emit CreatedNFT(s_tokenCounter, highValue);
+        emit CreatedNFT(newTokenId, highValue);
     }
 
-    // You could also just upload the raw SVG and have solildity convert it!
+    // You could also just upload the raw SVG and let solildity convert it!
     function svgToImageURI(string memory svg) public pure returns (string memory) {
         // example:
         // '<svg width="500" height="500" viewBox="0 0 285 350" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill="black" d="M150,0,L75,200,L225,200,Z"></path></svg>'

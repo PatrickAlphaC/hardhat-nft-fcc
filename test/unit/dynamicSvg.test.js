@@ -44,7 +44,7 @@ const lowTokenUri =
                   await expect(dynamicSvgNft.mintNft(highValue)).to.emit(
                       dynamicSvgNft,
                       "CreatedNFT"
-                  )
+                  ).withArgs(0, highValue);
                   const tokenCounter = await dynamicSvgNft.getTokenCounter()
                   assert.equal(tokenCounter.toString(), "1")
                   const tokenURI = await dynamicSvgNft.tokenURI(0)

@@ -54,7 +54,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     }
 
     log("----------------------------------------------------")
-    arguments = [
+    const arguments = [
         vrfCoordinatorV2Address,
         subscriptionId,
         networkConfig[chainId]["gasLane"],
@@ -84,11 +84,11 @@ async function handleTokenUris() {
     // Check out https://github.com/PatrickAlphaC/nft-mix for a pythonic version of uploading
     // to the raw IPFS-daemon from https://docs.ipfs.io/how-to/command-line-quick-start/
     // You could also look at pinata https://www.pinata.cloud/
-    tokenUris = []
+    const tokenUris = []
     const { responses: imageUploadResponses, files } = await storeImages(imagesLocation)
-    for (imageUploadResponseIndex in imageUploadResponses) {
+    for (const imageUploadResponseIndex in imageUploadResponses) {
         let tokenUriMetadata = { ...metadataTemplate }
-        tokenUriMetadata.name = files[imageUploadResponseIndex].replace(".png", "")
+        tokenUriMetadata.name = files[imageUploadResponseIndex].replace(/\b.png|\b.jpg|\b.jpeg/, "")
         tokenUriMetadata.description = `An adorable ${tokenUriMetadata.name} pup!`
         tokenUriMetadata.image = `ipfs://${imageUploadResponses[imageUploadResponseIndex].IpfsHash}`
         console.log(`Uploading ${tokenUriMetadata.name}...`)
