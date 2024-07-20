@@ -1,3 +1,6 @@
+> [!IMPORTANT]  
+> This repo is no longer maintained. Please go to [Cyfrin Updraft](https://updraft.cyfrin.io/) where we will be keeping all smart contract development content modern! 
+
 # The Ultimate NFT Repo
 
 *[⌨️ (20:28:51) Lesson 14: Hardhat NFTs ](https://www.youtube.com/watch?v=gyMwXuJrbJQ&t=73731s)*
